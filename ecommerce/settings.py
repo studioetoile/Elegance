@@ -29,7 +29,7 @@ SECRET_KEY = 'django-insecure-kwn7c=#hi6un*e%s6k2_zc#6@jjq$cgn1mb*)jp6((5o_lstln
 
 #ALLOWED_HOSTS = []
 DEBUG = False
-ALLOWED_HOSTS = ["ton-site.onrender.com"]
+ALLOWED_HOSTS = ["elegance-ln6a.onrender.com"]
 
 
 # Application definition
