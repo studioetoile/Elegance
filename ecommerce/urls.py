@@ -16,11 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from shop.views import home
 
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("shop.urls")),  # ← Ajout de ton app shop
+    path("",home),
 ]
 
 # Servir les fichiers statiques et médias en développement
