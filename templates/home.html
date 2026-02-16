@@ -1,0 +1,106 @@
+{% extends "shop/base.html" %}
+{% load static %}
+
+
+{% block title %}Accueil - Elegance{% endblock %}
+
+{% block content %}
+
+
+
+<section class="hero">
+    <div class="hero-overlay">
+        <!--<h1>Elegance</h1>-->
+        <!--<h1>L’élégance n’est pas un luxe. C’est une signature.</h1>-->
+        <h1 class="titre-accueil">
+            <span class="titre1">L'élégance n'est pas un luxe.</span>
+            <span class="titre2">C'est une signature.</span>
+
+        </h1>
+
+
+
+            <a href="{% url 'all_products'%}" class="btnCentral">
+                Découvrir
+            </a>
+    </div>
+</section>
+
+<div class="page-content">
+    <!-- Section Produits -->
+    <h2>Nos produits</h2>
+    <div class="product-list">
+        {% for product in products %}
+        <div class="product-card">
+            <a href="{% url 'product_detail' product.id %}">
+            <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'shop/product-placeholder.png' %}{% endif %}" alt="{{ product.name }}">
+            </a>
+            <h3>{{ product.name }}</h3>
+            <p>{{ product.price }} €</p>
+            <!--<p>{{ product.description }}</p> -->
+            <a href="{% url 'add_to_cart' product.id %}" class="add-cart-btn">
+                Ajouter au panier
+            </a>
+        </div>
+        
+        {% empty %}
+            <p>Aucun produit disponible pour le moment.</p>
+        {% endfor %}
+
+         <!--Modifier le template home.html pour que le clic sur l’image redirige vers la page détail-->
+        
+
+    </div>
+
+<section class="why-us">
+    <h2>Pourquoi nous choisir </h2>
+    <div class="why-us-scroll">
+        <div class="why-card">
+            <i class="fa-solid fa-lock"></i>
+            <h3>Paiement 100% sécurisé</h3>
+            <p>Toutes nos transactions sont protégées par un système de paiement sécurisé.</p>
+
+        </div>
+
+        <div class="why-card">
+            <i class="fa-solid fa-gem"></i>
+            <h3>Qualité premium</h3>
+            <p>Des produits soigneusement sélectionnées pour leur qualité et leur durabilité.</p>
+        </div>
+
+        <div class="why-card">
+            <i class="fa-solid fa-truck-fast"></i>
+            <h3>Livraison rapide</h3>
+            <p>Expédition rapide et suivi de commande en temps réel.</p>
+        </div>
+
+        <div class="why-card">
+            <i class="fa-solid fa-headset"></i>
+            <h3>Service client</h3>
+            <p>Une équipe à votre écoute pour vous accompagner à chaque étape.</p>
+        </div>
+
+    </div>
+    <!-- Bouton découvrir -->
+    <div class="why-us-btn">
+        <a href="{% url 'all_products' %}" class="btnCentral">
+            Découvrir
+        </a>
+    </div>
+
+</section>
+
+</div>
+ <!-- Newsletter -->
+<div class="newsletter">
+    <h2>Abonnez-vous à notre newsletter</h2>
+    <form>
+        <input type="email" placeholder="Votre email" style="padding:10px; width:300px;">
+        <!--<button type="submit" style="padding:10px 20px; background-color: white;">S'abonner</button>-->
+        <button type="submit" class="btnGeneral">S'abonner</button>
+    </form>
+</div>
+
+
+
+{% endblock %}

@@ -1,0 +1,103 @@
+<!-- templates/cart.html -->
+<!DOCTYPE html>
+<html lang="fr">
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>Panier</title>
+    <style>
+        body {
+            background-color: white;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .cart-item {
+            border: 1px solid black;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .cart-item p {
+            margin: 0 10px;
+        }
+        .btn {
+            padding: 5px 12px;
+            background-color: rgb(255, 255, 255);
+            color: rgb(0, 0, 0);
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            margin-left: 5px;
+            border : 1px solid black;
+        }
+        .btn:hover {
+            background-color: rgb(255, 232, 191);
+            color: rgb(0, 0, 0);
+            border: 1px solid black;
+
+        }
+    </style>
+</head>
+{% extends "shop/base.html" %}. <!--ICI POUR QUE LA BARRE DE MENU SOIT AUSSI PRÉSENTE DANS LA PAGE DES PANIERS-->
+
+{% block title %}Panier{% endblock %}
+
+{% block content %}
+
+<!-- <body> -->
+<div class="cart-container">   
+
+    <h1>Votre Panier</h1>
+    <!--essai d'affichage avec le choix des couleurs pour le panier -->
+    {% for item in cart %}
+
+        <p>{{ item.product.name }} – Couleur : {{ item.product.color }}</p>
+
+        <p>
+            {{ item.name }} –
+            <!--Couleur :-->
+            <span class="color-swatch color-{{ item.color }}"></span>
+        </p>
+    {% endfor %}
+
+<!-- Ce qui suit est ce qui fonctionne de base-->
+    {% for item in cart_items %}
+    <div class="cart-item">
+        <p>{{ item.product.name }}</p>
+        <p>{{ item.quantity }}</p>
+
+        {% if item.product.color %}
+        <p>
+            <!--Couleur :-->
+            <span class="color-swatch color-{{ item.product.color|lower }}"></span>
+            {{ item.product.color }}
+        </p>
+        {% endif %}
+
+    <p>Prix : {{ item.product.price }} €</p>
+        <div>
+            <a class="btn" href="{% url 'add_to_cart' item.product.id %}">+</a>
+            <a class="btn" href="{% url 'remove_from_cart' item.product.id %}">-</a>
+        </div>
+    </div>
+    {% empty %}
+    <p>Votre panier est vide</p>
+    {% endfor %}
+
+    <p><strong>Total : {{ total }}€</strong></p>
+    <div class="bouton-contenu-panier">
+    <a class="btn" href="{% url 'home' %}">Commander</a>
+    <p></p>
+    <a class="btn" href="{% url 'home' %}">Continuer mes achats</a>
+    </div>
+</div> 
+{% endblock %}
+
+</html>
+
+
+

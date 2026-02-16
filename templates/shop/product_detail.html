@@ -1,0 +1,125 @@
+
+{% extends "shop/base.html" %}
+{% load static %}
+
+{% block title %}{{ product.name }} - Détails{% endblock %}
+
+{% block content %}
+
+<div class="cart-container">
+
+    <div class="product-detail" style="display:flex; gap:40px;">
+
+        <!-- GALERIE -->
+        <div class="product-gallery">
+            <div class="main-image">
+                <img id="mainImage"
+                     src="{% if product.images.first %}{{ product.images.first.image.url }}{% else %}{% static 'shop/product-placeholder.png' %}{% endif %}"
+                     alt="{{ product.name }}"
+                     style="width:350px; border-radius:16px;">
+            </div>
+
+            <div class="thumbnails" style="margin-top:15px; display:flex; gap:10px;">
+                {% for img in product.images.all %}
+                    <img src="{{ img.image.url }}"
+                         onclick="changeImage(this.src)"
+                         style="width:70px; height:70px; object-fit:cover; cursor:pointer; border-radius:10px; border:1px solid #ccc;">
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- INFOS PRODUIT -->
+        <div class="product-info">
+            <h1>{{ product.name }}</h1>
+            <p>{{ product.description }}</p>
+            <p><strong>{{ product.price }} €</strong></p>
+
+            {% if product.color %}
+                <div class="color-box {{ product.color }}"></div>
+            {% endif %}
+
+
+            
+
+            <form method="post" action="{% url 'add_to_cart' product.id %}">
+                {% csrf_token %}
+
+                <div class="color-choices">
+ 
+                    {% for variant in product.parent_product.variants.all|default:product.variants.all %}
+                        <a href="{% url 'product_detail' variant.id %}"
+                        class="color-swatch color-{{ variant.color|lower }}">
+                        </a>
+                    {% endfor %}
+               
+                    <!--
+                    Fonctionne pour les couleurs mais pas complète
+                    {% for c in product.colors.all %}
+                        <label>
+                            <input
+                                type="radio"
+                                name="color"
+                                value="{{ c.color }}"
+                                required
+                                hidden
+                            >
+                            <span class="color-swatch color-{{ c.color }}"></span>
+                        </label>
+                    {% endfor %}
+                    -->
+
+                </div>
+
+<!--
+                <button type="submit">Ajouter au panier</button>
+
+-->
+            </form>
+
+            <p></p>
+            <a href="{% url 'add_to_cart' product.id %}" class="add-cart-btn">
+                Ajouter au panier
+            </a>
+            
+            <h4>Description détaillée : </h4>
+            <p>{{ product.descriptiondetaillee }}</p>
+
+            <h4>Livraison : </h4>
+            <a>Livraison rapide et sécurisée.</a>
+
+        </div>
+
+    </div>
+
+    {% if related_products %}
+<div class="page-content">
+    <h2>Cela pourrait aussi vous intéresser</h2>
+
+    <div class="product-list">
+        {% for item in related_products %}
+        <div class="product-card">
+            <a href="{% url 'product_detail' item.id %}">
+                <img src="{% if item.image %}{{ item.image.url }}{% else %}{% static 'shop/product-placeholder.png' %}{% endif %}">
+            </a>
+            <h3>{{ item.name }}</h3>
+            <p>{{ item.price }}€</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+</div>
+
+<script>
+function changeImage(src) {
+    document.getElementById("mainImage").src = src;
+}
+
+
+
+</script>
+
+
+
+
+{% endblock %}

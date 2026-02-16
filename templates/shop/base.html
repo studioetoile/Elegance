@@ -1,0 +1,848 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    
+    <!--<meta charset="UTF-8">-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}Ma boutique{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+
+    <!--Pour ajouter des icônes de Font Awesome : -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        /* RESET */
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            /*font-family: "Playfair Display", serif; je laisse ici si je veux que tout soit en italique*/
+            font-family: Arial, sans-serif; /* ou Montserrat si tu veux */
+            overflow-x: hidden;
+
+        }
+
+       /*body {
+            display :flex;
+            flex-direction: column;
+
+        }*/
+
+        /*Titre design sur page d'acceuil*/
+
+        .titre1 {
+            font-size: 45px;
+            font-weight: normal;       /* gras : bold*/
+            color: #000; /* noir */
+            display:block; /*pour partir à la ligne*/
+            font-family: 'Montserrat', sans-serif;
+            letter-spacing: 2px;
+            /*text-transform: uppercase;*/ /*pour mettre en majuscule*/
+
+        }
+
+        .titre2 {
+            font-size: 32px;
+            color: #d2c2a3; /* beige luxe */
+            letter-spacing: 1px;
+            font-family: 'Playfair Display', serif; /* écriture stylée */
+            font-style:italic;
+            margin-left: 10px;
+            display:block;
+        }
+
+
+
+
+        /* Bouton à utiliser avec design blanc ect  */
+        .btnGeneral {
+            padding: 8px 12px;
+            background-color: rgb(255, 255, 255);
+            color: rgb(0, 0, 0);
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            margin-left: 5px;
+            border : 1px solid black;
+        }
+        .btnGeneral:hover {
+            background-color: rgb(255, 232, 191);
+            color: rgb(0, 0, 0);
+            border: 1px solid black;
+
+        }
+
+        .btnCentral {
+            padding: 2px 12px;
+            color: rgb(255, 255, 255);
+            background-color: rgb(230, 213, 199);
+            text-decoration: none;
+            font-size: 25px;
+            font-weight: bold;
+            border-radius: 15px;
+            margin-left: 3px;
+            font-weight: normal; 
+            /*border : 1px solid black;**/
+        }
+        .btnCentral:hover {
+            color: rgb(255, 255, 255);
+            background-color: rgb(238, 221, 210);
+            border: 1px solid rgb(237, 224, 208);
+
+        }
+
+        .page-content h2 {
+            text-align: center;      /* centre le texte */
+            margin-top: 40px;        /* espace au-dessus */
+            margin-bottom: 30px;     /* espace en dessous */
+            font-size: 40px;         /* taille plus élégante */
+            font-weight: normal;       /* gras */
+            color: #000000;          /* couleur sympa, change si tu veux */
+        }
+
+        .page-content h4 {
+            text-align: center;      /* centre le texte */
+            margin-top: 40px;        /* espace au-dessus */
+            margin-bottom: 30px;     /* espace en dessous */
+            font-size: 30px;         /* taille plus élégante */
+            font-weight: normal;       /* gras */
+            color: #000000;          /* couleur sympa, change si tu veux */
+        }
+
+       .hero h1 {
+            text-align: center;      /* centre le texte */
+            /*font-family: 'Great Vibes', cursive;*/
+            font-family: 'Cormorant Garamond', serif;
+            margin-top: 40px;        /* espace au-dessus */
+            margin-bottom: 30px;     /* espace en dessous */
+            font-size: 40px;         /* taille plus élégante */
+            font-weight: normal;       /* gras */
+            color: #000000;          /* couleur sympa, change si tu veux */
+        }
+
+        /* Conteneur central pour toutes les pages */
+        .cart-container {
+            max-width: 900px;       /* largeur maximale du contenu */
+            margin: 40px auto;      /* centré horizontalement avec marge verticale */
+            padding: 20px;          /* espace à l’intérieur pour ne pas coller aux bords */
+            background-color: #fff; /* couleur de fond du contenu */
+            /*border: 2px solid #000; */ /* bordure noire autour */
+            border-radius: 15px;    /* coins arrondis */
+            align-items: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1); /* léger effet 3D */
+        }
+
+        /* Style du formulaire par exemple */
+        .cart-container form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .cart-container input,
+        .cart-container textarea {
+            padding: 10px;
+            /*border: 1px solid #ccc;*/
+            border-radius: 8px;
+            font-size: 16px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+
+        /* HEADER */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #ffffff;
+            padding: 10px 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            height: 70px; 
+            position: relative ; /* reste visible même en scroll */
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        .menu-left {
+            position: relative;
+        }
+
+        .menu-left img.logo {
+            height: 50px;  /* logo réduit */
+            width: auto;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav-links a {
+            color: black;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .nav-links a:hover {
+            color: #DAA520;
+        }
+
+        .menu-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .cart-icon {
+            font-size: 26px;
+            color: black;
+            text-decoration: none;
+            margin-left: 15px;
+            transition: transform 0.2s ease, color 0.2s ease;
+        }
+
+        .cart-icon:hover {
+            transform: scale(1.2);
+            color: #DAA520;
+        }
+
+        /* MENU LATÉRAL */
+        .side-menu {
+            position: fixed;
+            top: 0;
+            left: -250px;
+            width: 250px;
+            height: 100%;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.3);
+            background: white;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            transition: left 0.3s ease;
+            z-index: 1000;
+        }
+
+        /*.side-menu.open {
+            left: 0;
+        }
+
+        .side-menu a {
+            color: black;
+            font-weight: bold;
+            text-decoration: none;
+        }*/
+
+        /* Hamburger menu */
+        .hamburger {
+            font-size: 26px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: black;
+        }
+
+        /* Menu déroulant caché par défaut */
+       .categories-menu {
+            display: none;
+            flex-direction: column;
+            position: absolute;   /* pour qu’il reste sur toute la page */
+            top: 70%;
+            left: 0;
+            width: 220px;       /* largeur de la bande verticale */
+            height: 100vh;      /* prend toute la hauteur de la page */
+            background-color: #ffffff; /* vert élégant */
+            padding-top: 60px;  /* espace pour le bouton hamburger en haut */
+            box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+            z-index: 1000;
+            border-radius: 0;   /* plus de bord arrondi */
+        }
+
+        .categories-menu a {
+            color: rgb(0, 0, 0);
+            padding: 15px 20px;
+            font-size: 18px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+
+        .categories-menu a:hover {
+            background-color: rgba(255, 209, 154, 0.2); /* surlignage au hover */
+        }
+
+        /* Panier à droite */
+        .menu-right {
+            font-size: 26px;
+        }
+
+        .menu-center a {
+            font-family: "Playfair Display", serif;
+            text-decoration: peru;
+            font-size: 18px;
+            color: black;
+            font-weight: bold;
+            text-decoration: none;
+            margin: 0 15px;
+            transition: color 0.3s ease, transform 0.2s ease;
+        }
+
+        .menu-center a:hover {
+            color: #FFD700; /* doré/jaune */
+            transform: scale(1.1); /* léger zoom au hover */
+        }
+        .cart-icon {
+            text-decoration: none;
+            color: black;
+            transition: transform 0.2s ease;
+        }
+        .cart-icon:hover {
+            transform: scale(1.2);
+            color: var(--gold-dark);
+        }
+
+        /* HERO */
+        .hero {
+            position: relative; /* pour que le overlay fonctionne */
+            width: 100%;
+            height: 100vh; /* pleine hauteur de la fenêtre */
+            background-image: url("{% static 'shop/hero.png' %}");
+            background-size: cover; /* couvre tout, sans répétition */
+            background-position: center center;
+            background-repeat: no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            z-index: 0;
+            font-size: 30px; /*taille pour le titre sur le hero*/
+        
+        }
+
+        .hero-overlay {
+            background: rgba(244, 235, 235, 0.45);
+            padding: 40px 60px;
+            border-radius: 20px;
+            color: rgb(0, 0, 0);
+            text-align: center;
+        }
+
+        /* PAGE CONTENT */
+        .page-content {
+            padding: 40px 20px; /* haut/bas 40px, gauche/droite 20px */
+            max-width: 1200px; /* largeur max pour centrer */
+            margin: 0 auto; /* centre horizontalement */
+        }
+        .page-content h2 {
+            margin-left: 20px; /* décale un peu vers la droite */
+        }
+
+        /* PRODUITS */
+        /**.product-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }*/ 
+        .product-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            align-items: stretch;/*meme taille peu importe le contenu*/
+            /*object-fit: cover;*/
+            justify-content: center;
+        }
+
+        
+
+        .product-card {
+            background-color: white;
+            padding: 10px;
+            width: 200px;
+            /*height:400px;*/
+            /*width: 80%;*/
+            /*height: 60%;*/
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            text-align: center;
+            object-fit: contain; /*coupe sans déformer*/
+            /*width :100%;
+            height:100%;*/
+            /**Ce qui qui suit est la modif pour que tout rentre dans le card **/
+            display: flex;
+            flex-direction:column; /* image en haut, texte dessous */
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        
+
+        .product-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            /*object-fit: cover;*/
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .product-card img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .add-cart-btn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 18px;
+            /*background: linear-gradient(135deg, white, rgb(255, 255, 255), white);*/
+            background-color: rgb(241, 232, 225);
+            color: rgb(255, 255, 255);
+            font-weight: bold;
+            border-radius: 12px;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: normal;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            /* AJOUT : bordure */
+            border: 0px solid black ;  /* tu peux changer la couleur */
+        }
+
+        .add-cart-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+             /* facultatif : changer la couleur de bordure au hover */
+            border-color: var(--gold);
+        }
+
+        /*Ce qui pourrait intéresser en plus */
+
+
+        .product-card-autre img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        /*
+        .product-list-autre {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+            gap: 10px;
+            align-items: stretch;
+            object-fit: cover;
+            text-align:center ;
+        }
+*/
+        .product-list-autre {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 250px)); /*.ici j'ai mis max 250 px au lieu de 1FR car quand pas bcp de produit, trop espacé  */
+            gap: 10x;
+            align-items: stretch;/*meme taille peu importe le contenu*/
+            /*object-fit: cover;*/
+            justify-content: center;
+            text-align:center;
+        }
+        .product-card-autre img{
+            width: 20%;
+            height: 50%;
+            object-fit: cover;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+
+
+        /*GALERIE DE PHOTO POUR LES PRODUITS*/
+        .product-gallery {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .main-image img {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 10px;
+        }
+
+        .thumbnails {
+            display: flex;
+            gap: 10px;
+        }
+
+        .thumbnails img {
+            width: 70px;
+            cursor: pointer;
+            border-radius: 8px;
+            border: 2px solid transparent;
+        }
+
+        .thumbnails img:hover {
+            border-color: gold;
+        }
+
+
+/*pour ajouter les couleurs pour les produits*/
+
+
+        /*.color-box {
+            width: 20px;
+            height: 20px;
+            border: 1px solid #000;
+            border-radius: 4px;
+            display: inline-block;
+        } */
+
+        /* couleurs */
+       /* .color-box.red { background-color: red; }
+        .color-box.blue { background-color: blue; }
+        .color-box.green { background-color: green; }
+        .color-box.black { background-color: black; }
+        .color-box.white { background-color: white; }
+        .color-box.yellow { background-color: yellow; } **/
+
+        .color-swatch {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+            border: 2px solid #ddd;
+            cursor: pointer;
+        }
+
+        .color-red { background-color: red; }
+        .color-blue { background-color: blue; }
+        .color-green { background-color: green; }
+        .color-black { background-color: black; }
+        .color-white { background-color: white; border: 2px solid #aaa; }
+
+
+        .color-swatch.selected {
+            border: 3px solid #000;
+        }
+
+
+                /* Newsletter */
+        .newsletter {
+            background-color: #faf6f2;
+            padding: 40px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+
+        .site-footer {
+            background-color: #fff4f4;       /* fond sombre */
+            color: #efabab;                  /* texte clair */
+            padding: 20px 0;
+            width: 100%;
+            text-align: center;
+            border-top:1px solid #ddd;
+        }
+
+        .site-content {
+            flex: 1;
+        }
+
+
+        .site-footer a {
+            color: #efcfa5;
+            text-decoration: none;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+
+        .site-footer a:hover {
+            color: #ffffff;  /* couleur au survol */
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .footer-links {
+            margin-bottom: 10px;
+        }
+
+        .footer-copy {
+            font-size: 14px;
+            color: #aaa;
+        }
+
+
+        /* ===== RESPONSIVE HEADER ===== */
+
+        .menu-toggle {
+            display: none;
+            font-size: 26px;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+
+            .menu-toggle {
+                display: block;
+            }
+
+            nav.nav-links {
+                display: none;
+                flex-direction: column;
+                background: white;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                padding: 20px;
+                border-top: 1px solid #ddd;
+                z-index: 999;
+            }
+
+            nav.nav-links.open {
+                display: flex;
+            }
+
+            nav.nav-links a {
+                margin: 10px 0;
+                font-size: 18px;
+            }
+        }
+
+
+
+        /*Pour la page détail des produits */
+
+        .product-detail {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            align-items: flex-start;
+        }
+
+        .product-images img {
+            max-width: 400px;
+            width: 100%;
+            border-radius: 12px;
+        }
+
+        .product-info h1 {
+            margin-top: 0;
+        }
+
+        .color-variants {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+
+        /*PAGE PANIER*/
+        .bouton-contenu-panier {
+            text-align: center; /* centre le contenu horizontalement */
+            margin: 20px 0;     /* optionnel : ajoute un peu d'espace au-dessus et en dessous */
+        }
+
+        .bouton-contenu-panier .btn {
+            margin: 0 10px; /* espace entre les deux boutons */
+            display: inline-block;
+            padding: 12px 24px;
+            background: linear-gradient(
+                135deg,
+                #ffffff,       /* doré clair */
+                #ffffff,       /* doré moyen */
+                #ffffff        /* doré foncé */
+            );
+            color: #000;               /* texte noir */
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 10px;
+            border: 1px solid #000000; /* bordure dorée */
+            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+        }
+
+        .bouton-contenu-panier .btn:hover { /*bouton pour zoomer quand on passe la souris dessus*/
+            transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            border-color: #FFC107;    /* change légèrement la couleur de la bordure au survol */
+        }
+
+
+        /* Style css pour la section de à propos de nous **/
+         /* ===== WHY US SECTION ===== */
+
+        .why-us {
+            margin: 80px auto;
+            padding: 0 20px;
+            background-color: #fff7ef;
+            padding: 60px 20px;
+
+        }
+
+        .why-us h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 36px;
+        }
+
+        /* Scroll horizontal */
+        .why-us-scroll {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            padding-bottom: 20px;
+            scroll-snap-type: x mandatory;
+        }
+
+        /* Cache la scrollbar (clean) */
+        .why-us-scroll::-webkit-scrollbar {
+            height: 6px;
+        }
+        .why-us-scroll::-webkit-scrollbar-thumb {
+            background: #ddd;
+            border-radius: 10px;
+        }
+
+        /* Carrés */
+        .why-card {
+            min-width: 260px;
+            height: 260px;
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            scroll-snap-align: start;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            transition: transform 0.3s ease;
+            text-align:center;
+        }
+
+        .why-card:hover {
+            transform: scale(1.05);
+        }
+
+        .why-card h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+
+        .why-card p {
+            font-size: 16px;
+            line-height: 1.5;
+            color: #444;
+        }
+
+        /* Icônes dans les carrés */
+        
+        .why-card i {
+            font-size: 44px;      /* taille de l’icône */
+            color: #C9A24D;       /* doré élégant */
+            margin-bottom: 20px;
+            display: block;       /* permet un vrai centrage vertical */
+            text-align: center;
+        }
+
+        .why-us-btn {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+
+
+
+
+
+    </style>
+</head>
+<body>
+
+    <!-- MENU LATÉRAL -->
+    
+
+    <!-- HEADER -->
+    <header>
+        <div class="menu-left">
+            <!-- Hamburger menu -->
+            <button class="hamburger" onclick="toggleCategories()">☰</button>
+
+            <!-- Menu déroulant des catégories -->
+            <div id="categoriesMenu" class="categories-menu">
+                <!-- pour le rentrer en dur : <a href="#">Vêtements</a> 
+                <a href="#">Robes</a> -->
+                <!-- Mais ici s'affichent automatiquement les catégories -->
+                {% for category in categories %}
+                    <a href="{% url 'products_by_category' category.id %}">
+                        {{ category.name }}
+                    </a>
+                {% endfor %}
+            
+            </div>
+        
+        </div>
+        <nav class="menu-center">
+            <a href="{% url 'home' %}">Accueil</a>
+            <a href="{% url 'contact' %}">Contact</a>
+        </nav>
+        <nav class="menu-right">
+            <a href="{% url 'search' %}" class="cart-icon">🔍</a> 
+            <!--Une fois que c'est ajouté ici, il faut ajouter le path dans urls puis dans view et créer son html 🛒-->
+            <a href="{% url 'view_cart' %}" class="cart-icon">🛍️</a>
+        </nav>
+    </header>
+
+    <main>
+    
+        {% block content %}{% endblock %}
+
+    </main>
+
+
+    <footer class="site-footer">
+    <div class="footer-container">
+        <div class="footer-links">
+        <a href="{% url 'home' %}">Accueil</a>
+        <a href="{% url 'all_products' %}">Produits</a>
+        <a href="{% url 'contact' %}">Contact</a>
+        <!--<a href="about.html">À propos</a>-->
+        <a href="{% url 'home' %}">Mentions légales</a>
+        </div>
+        <div class="footer-copy">
+        &copy; 2026 Tous droits réservés.
+        </div>
+    </div>
+    </footer>
+
+
+  
+
+    <script>
+    function toggleCategories() {
+        const menu = document.getElementById("categoriesMenu");
+        if (menu.style.display === "flex") {
+            menu.style.display = "none";
+        } else {
+            menu.style.display = "flex";
+        }
+    }
+
+    document.querySelectorAll('.color-swatch').forEach(el => {
+    el.style.backgroundColor = el.dataset.color;
+});
+    </script>
+
+
+</body>
+</html>

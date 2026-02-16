@@ -1,0 +1,59 @@
+{% extends "shop/base.html" %}
+{% load static %}
+
+
+{% block title %}{{ category.name }} - Elegance{% endblock %}
+
+{% block content %}
+
+
+<!--
+<section class="hero"> -->
+    <!--
+    <div class="hero-overlay"> -->
+        <!--<h1>Elegance</h1>-->
+       <!-- <h1>L’élégance n’est pas un luxe. C’est une signature.</h3>
+    </div>
+</section>
+
+-->
+<div class="page-content">
+    <!-- Section Produits -->
+    <h2>{{ category.name }}</h2>
+    <div class="product-list-autre">
+        {% for product in products %}
+        <div class="product-card">
+            <a href="{% url 'product_detail' product.id %}">
+            <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'shop/product-placeholder.png' %}{% endif %}" alt="{{ product.name }}">
+            </a>
+            <h3>{{ product.name }}</h3>
+            <p>{{ product.price }}€</p>
+            <!--<p>{{ product.description }}</p> -->
+            <a href="{% url 'add_to_cart' product.id %}" class="add-cart-btn">
+                Ajouter au panier
+            </a>
+        </div>
+        
+        {% empty %}
+            <p>Aucun produit disponible dans cette catégorie pour le moment.</p>
+        {% endfor %}
+
+         <!--Modifier le template home.html pour que le clic sur l’image redirige vers la page détail-->
+        
+
+    </div>
+
+   
+
+
+</div>
+ <!-- Newsletter -->
+<div class="newsletter">
+    <h2>Abonnez-vous à notre newsletter</h2>
+    <form>
+        <input type="email" placeholder="Votre email" style="padding:10px; width:300px;">
+        <button type="submit" style="padding:10px 20px;">S'abonner</button>
+    </form>
+</div>
+
+{% endblock %}

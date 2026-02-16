@@ -1,0 +1,29 @@
+{% extends "shop/base.html" %}
+{% load static %}
+
+{% block title %}Recherche{% endblock %}
+
+{% block content %}
+<div class="page-content">
+    <h2>Résultats de recherche</h2>
+
+    <form method="get" action="{% url 'search' %}" style="text-align:center; margin-bottom:30px;">
+        <input type="text" name="q" value="{{ query }}" placeholder="Rechercher un produit..." style="padding:10px; width:300px;">
+        <button type="submit" class="btnGeneral">Rechercher</button>
+    </form>
+
+    <div class="product-list">
+        {% for product in products %}
+        <div class="product-card">
+            <a href="{% url 'product_detail' product.id %}">
+                <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'shop/product-placeholder.png' %}{% endif %}">
+            </a>
+            <h3>{{ product.name }}</h3>
+            <p>{{ product.price }}€</p>
+        </div>
+        {% empty %}
+            <p>Aucun résultat trouvé.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
